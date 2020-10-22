@@ -22,7 +22,10 @@ router.get(
   '/logout',
   logout
 )
-module.exports = router;
+module.exports = {
+  router,
+  isLoggedIn
+};
 
 // callbacks
 function ping(req, res) {

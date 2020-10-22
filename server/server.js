@@ -15,16 +15,56 @@ app.use(cors())
 app.use(cookieParser())
 
 // static files
-app.use('/admin', express.static(path.join(__dirname, 'admin_user/build')))
-app.use('/business', express.static(path.join(__dirname, 'business_user/build')))
-app.use(express.static(path.join(__dirname, 'public_user/build')))
+app.use('/admin', express.static(path.join(__dirname, '../admin_user/build')))
+app.use('/business', express.static(path.join(__dirname, '../business_user/build')))
+app.use(express.static(path.join(__dirname, '../public_user/build')))
 
 // initialize routes
+
+// for testing
+// app.get('/sse', sse) 
+
+// function sse(req, res) {
+//   try {
+//     console.log('received sse');
+//     res.set({
+//       "Content-Type": "text/event-stream",
+//       "Cache-Control": "no-cache",
+//       "Connection": "keep-alive",
+//       "Access-Control-Allow-Origin": "*"
+//     });
+//     res.write('retry: 30000\n\n')
+
+//     res.on('close', () => {
+//       console.log('client dropped me');
+//       res.end();
+//     });
+
+//     let n = 0
+//     const timer = setInterval(()=> {
+//       res.write('data: "ping"\n\n')
+//       res.flushHeaders();
+
+//       if (n == 5) {
+//         clearInterval(timer)
+//         res.end()
+//       }
+//       console.log(n);
+//       n++
+//     }, 10000)
+
+//   } catch (err) {
+//     next(err)
+//   }
+// }
+
+
+
 
 
 // auth routes
 const auth = require('./auth/auth.js')
-app.use('/auth', auth)
+app.use('/auth', auth.router)
 
 // shop routes
 const shop = require('./routes/shop/shop.js')

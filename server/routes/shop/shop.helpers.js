@@ -39,18 +39,22 @@ async function findBusiness({user}) {
   }
 }
 
-async function checkin({user, storeName}) {
+async function checkin(user, storeName) {
   const business = await Business.findOne({
     storeName
   })
-  // const time = Date.now()
+
+  let time = new Date()
+  time = time.toTimeString();
   const today = new Date().toDateString()
   if (business) {
     const index = business.history.findIndex(item => item.date == today)
     if( index !== -1 ) {
-      business.history[index].visits.push({user, entry: 'later'})
+      business.updateOne({$inc: {"currentCount": 1}})
+      business.history[index].visits.push({user, entry: time})
     } else {
-      business.history.push({date: today, visits: [{user, entry: 'now'}]})
+      business.updateOne({$set: {"currentCount": 1}})
+      business.history.push({date: today, visits: [{user, entry: time, exit: null}]})
     }
     business.save()
   } else {
@@ -71,10 +75,9 @@ function checkToken(token) {
 
 async function getAllShops(req) {
   const payload = await checkToken(req.cookies.jwt);
-  console.log(payload.username);
   const business = await Business.find({
     user : payload.username
-  })
+  }, '_id storeName location openingTime closingTime currentCount')
   return business
 }
 
@@ -82,19 +85,22 @@ async function checkoutUser({ user, storeName}) {
   const business = await Business.findOne({
     storeName
   })
+
+  let time = new Date()
+  time = time.toTimeString();
   const today = new Date().toDateString()
   if (business) {
     const index = business.history.findIndex(item => item.date == today)
     if( index !== -1 ) {
       // find entry and update
-      const rm_index = business.history[index].visits.findIndex(entry => entry.user == user)
+      const rm_index = business.history[index].visits.findIndex(entry => entry.user == user && !entry.exit)
       
       if (rm_index === -1) {
         throw new Error('no entry found')
       }
-
-      business.history[index].visits[rm_index].entry = 'checked out'
-      business.markModified(`history.${index}.visits.${rm_index}.entry`)
+      business.updateOne({$inc: {"currentCount": -1}})
+      business.history[index].visits[rm_index].exit = time
+      business.markModified(`history.${index}.visits.${rm_index}.exit`)
       business.save()
       
     } else {

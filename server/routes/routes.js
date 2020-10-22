@@ -1,32 +1,27 @@
 const express = require('express')
+const path = require('path')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res.json({
-    message: "up and running"
-  })
-})
-
 module.exports = router;
 
-// // routes
-// if (process.env.NODE_ENV === 'production') {
-//   // admin routes
-//   app.get('/admin/*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'admin_user/build', 'index.html'))
-//   })
+// routes
+if (process.env.NODE_ENV === 'production') {
+  // // admin routes
+  router.get('/admin/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../admin_user/build', 'index.html'))
+  })
 
-//   // business routes
-//   app.get('/business/*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'business_user/build', 'index.html'))
-//   })
+  // // business routes
+  router.get('/business/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../business_user/build', 'index.html'))
+  })
 
-//   // public routes
-//   app.get('/*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public_user/build', 'index.html'))
-//   })
-// }
+  // public routes
+  router.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public_user/build/index.html'))
+  })
+}
 
 // // api routes
 // app.get('/api/ping', (req, res) => {

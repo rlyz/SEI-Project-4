@@ -7,7 +7,7 @@ const businessSchema = new Schema({
   location: {type: String, required: true},
   openingTime: {type: String, required: true},
   closingTime: {type: String, required: true},
-  // currentCount: {type: Number, default: 0},
+  currentCount: {type: Number, default: 0},
   history: [{date: String, visits: Array}]
 })
 

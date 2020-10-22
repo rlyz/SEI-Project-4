@@ -5,7 +5,7 @@ import ProtectedRoute from '../components/ProtectedRoute'
 import FullpageLoadingScreen from '../screens/FullpageLoadingScreen'
 
 // redux actions
-import { getAllShops } from '../redux/shops'
+import { getAllShops, openSse } from '../redux/shops'
 import { verifyUser } from '../redux/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import LoginScreen from '../screens/LoginScreen';
@@ -29,11 +29,13 @@ function App() {
   // no - go to log in page
   // yes - go to dashboard
   const loadShops = useCallback(() => dispatch(getAllShops()), [dispatch]);
+  const sse = useCallback(() => dispatch(openSse()), [dispatch]);
   useEffect(() => {
     if (!authLoading) {
       loadShops()
+      sse()
     }
-  }, [authLoading, loadShops])
+  }, [authLoading, loadShops, sse])
 
   if (authLoading) {
     return <FullpageLoadingScreen />

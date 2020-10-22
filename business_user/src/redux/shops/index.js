@@ -38,7 +38,6 @@ export const getAllShops = () => dispatch => {
   fetch('/shop/getall')
   .then(res => res.json())
   .then(res => {
-    console.log(res.shops);
     dispatch({
       type: SHOP_GETALL,
       payload: {
@@ -48,9 +47,44 @@ export const getAllShops = () => dispatch => {
   })
 }
 
-export const openSse = () => {
+export const openSse = () => dispatch => {
+  const source = new EventSource('/shop/counter')
+  
+  source.onopen = () => {
+    console.log('sse established');
+  }
 
+  source.onmessage = (event) => {
+    const data = event.data
+    console.log(data);
+    // dispatch({
+    //   type: SHOP_COUNTER,
+    //   payload: ''
+    // })
+  }
+
+  source.addEventListener('please', (e) => {
+    console.log(e);
+  }, false)
+  
+  source.onerror = (e) => {
+    console.error(e);
+  }
+  console.log(source.readyState, '-- initial');
+  setTimeout(() => {
+    console.log(source.readyState, ' -- after');
+  },3000)
 }
+
+// shape for one shop
+// {
+//   storeName: "text",
+//   user: "",
+//   location: "",
+//   op: "",
+//   closing: "",
+//   count: 0,  
+// }
 
 // REDUCERS
 const initialState = {
@@ -80,7 +114,7 @@ const shopReducer = (state = initialState, action) => {
     case SHOP_COUNTER:
       return {
         ...state,
-        shops: [...shops, ...action.payload.shops]
+        shops: [...state, ...action.payload.shops]
       }
     default:
       return state
