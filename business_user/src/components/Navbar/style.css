@@ -1,0 +1,14 @@
+
+/* mobile */
+.navbar {
+  height: 125px;
+  background-color: lightcyan;
+}
+
+/* larger screen */
+@media only screen and (min-width: 768px) {
+  .navbar {
+    height: 100px;
+    background-color: khaki;
+  }
+}

@@ -1,0 +1,33 @@
+.spinner__overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+}
+
+/* mobile */
+.spinner {
+  transform: translateY(-50%);
+  width: 25vw;
+}
+
+/* larger screens */
+@media only screen and (min-width: 600px) {
+  .spinner {
+    width: 9vw;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spinner {
+    animation: loading infinite 2s linear;
+  }
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
