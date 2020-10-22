@@ -18,8 +18,9 @@ export default function QrGenerator() {
   const business = useSelector(state => state.auth.user)
   
   const [shop, setShop] = useState(null)
-
-  const base_url = `http://192.168.1.106:5000/?location=${shop}&business=${business}`
+  let base = "https://glacial-cliffs-92997.herokuapp.com/" 
+  //|| "http://192.168.1.106:5000"
+  const base_url = `${base}/?location=${shop}&business=${business}`
   return (
     <div>
     {/* <button onClick={()=>setToggle(s => !s)}>Generate QR code</button> */}
