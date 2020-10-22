@@ -6,7 +6,8 @@ export const SHOP_LOADING = 'SHOP_LOADING'
 export const SHOP_LOADED = 'SHOP_LOADED'
 export const SHOP_GETALL = 'SHOP_GETALL'
 
-export const SHOP_COUNTER = 'SHOP_COUNTER'
+export const SHOP_COUNTER_I = 'SHOP_COUNTER_I'
+export const SHOP_COUNTER_D = 'SHOP_COUNTER_D'
 
 // ACTIONS
 export const addStore = (cred) => dispatch => {
@@ -54,19 +55,28 @@ export const openSse = () => dispatch => {
     console.log('sse established');
   }
 
-  source.onmessage = (event) => {
-    const data = event.data
-    console.log(data);
-    // dispatch({
-    //   type: SHOP_COUNTER,
-    //   payload: ''
-    // })
-  }
-
-  source.addEventListener('please', (e) => {
-    console.log(e);
+  source.addEventListener('increment', (event) => {
+    const data = JSON.parse(event.data)
+    console.log(data.storeName);
+    dispatch({
+      type: SHOP_COUNTER_I,
+      payload: {
+        storeName: data.storeName
+      }
+    })
   }, false)
   
+  source.addEventListener('decrement', (event) => {
+    const data = JSON.parse(event.data)
+    console.log(data.storeName);
+    dispatch({
+      type: SHOP_COUNTER_D,
+      payload: {
+        storeName: data.storeName
+      }
+    })
+  }, false)
+
   source.onerror = (e) => {
     console.error(e);
   }
@@ -111,11 +121,26 @@ const shopReducer = (state = initialState, action) => {
         loading: false,
         shops: [...state.shops, ...action.payload.shops]
       }
-    case SHOP_COUNTER:
+    case SHOP_COUNTER_I:
       return {
         ...state,
-        shops: [...state, ...action.payload.shops]
+        shops: state.shops.map(item => {
+          if (item.storeName === action.payload.storeName) {
+            item.currentCount += 1
+          }
+          return item
+        })
       }
+      case SHOP_COUNTER_D:
+        return {
+          ...state,
+          shops: state.shops.map(item => {
+            if (item.storeName === action.payload.storeName) {
+              item.currentCount -= 1
+            }
+            return item
+          })
+        }
     default:
       return state
   }

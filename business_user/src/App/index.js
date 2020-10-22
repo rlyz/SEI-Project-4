@@ -45,17 +45,17 @@ function App() {
     <div className="App">
       <Navbar />
       <Switch>
-        <ProtectedRoute exact path="/">
+        <ProtectedRoute exact path="/business">
           <HomeScreen />
         </ProtectedRoute>
-        <Route exact path="/login">
+        <Route exact path="/business/login">
           <LoginScreen />
         </Route>
-        <Route exact path="/signup">
+        <Route exact path="/business/signup">
           <SignupScreen />
         </Route>
-        <Route path="/*">
-          <Redirect to="/login"/>
+        <Route path="/business/*">
+          <Redirect to="/business/login"/>
         </Route>
       </Switch>
     </div>

@@ -16,7 +16,7 @@ export default function LoginScreen() {
   useEffect(() => {
     if (authenticate) {
       dispatch(getAllShops())
-      history.push('/')
+      history.push('/business')
     } 
   }, [])
   
@@ -41,7 +41,7 @@ export default function LoginScreen() {
 
   return (
     <div className="login-screen">
-      <Link to="/signup">Sign up</Link>
+      <Link to="/business/signup">Sign up</Link>
       <form className="login__form" onSubmit={(e)=>{e.preventDefault();handleEvent(e)}}>
         <div className="login__formrow">
           <label htmlFor="username">Username: </label>

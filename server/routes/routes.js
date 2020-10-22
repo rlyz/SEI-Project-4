@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === 'production') {
 
   // // business routes
   router.get('/business/*', (req, res) => {
+    console.log('here');
     res.sendFile(path.join(__dirname, '../../business_user/build', 'index.html'))
   })
 

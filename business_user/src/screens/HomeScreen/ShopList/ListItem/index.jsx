@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.css'
 
-export default function ListItem({storeName, location, openingTime, closingTime, counter, alerts}) {
+export default function ListItem({storeName, location, openingTime, closingTime, currentCount, alerts}) {
   let style;
   if (alerts === 0) {
     style = 'green'
@@ -15,7 +15,7 @@ export default function ListItem({storeName, location, openingTime, closingTime,
 
   return (
     <div className={style}>
-      {storeName} | {location} | {openingTime} | {closingTime} | {counter}
+      {storeName} | {location} | {openingTime} | {closingTime} | {currentCount}
     </div>
   )
 }
@@ -26,7 +26,7 @@ ListItem.defaultProps =
       location: "here",
       openingTime: "now",
       closingTime: "later",
-      counter: "many people",
+      currentCount: 0,
       alerts: "-1"
     }
 

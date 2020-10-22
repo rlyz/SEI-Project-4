@@ -14,7 +14,7 @@ export default function ProtectedRoute({ children, ...rest }) {
         ) : (
           <Redirect 
             to={{
-              pathname: '/login',
+              pathname: '/business/login',
               state: { from: location}
             }}
           />

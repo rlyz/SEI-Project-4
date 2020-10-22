@@ -2,7 +2,7 @@ import React from 'react'
 import NotifItem from './NotifItem'
 
 export default function Notifications() {
-  const notifs = [{message: "pingpong punggol"}]
+  const notifs = [{message: "Monitor these shops"}]
   if (notifs.length === 0) {
     return <h3>All clear</h3>
   }

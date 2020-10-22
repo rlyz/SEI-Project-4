@@ -73,9 +73,9 @@ function counter(req, res, next) {
 }
 
 function sendToStore(business, storeName) {
-  console.log(business, '--business');
   if (sseClients.get(business)) {
-    sseClients.get(business).write('data: "lmao"\n\n')
+    sseClients.get(business).write(`event: increment\n`)
+    sseClients.get(business).write(`data: ${JSON.stringify({storeName})}\n\n`)
   }
 }
 
@@ -105,15 +105,23 @@ async function getall(req, res, next) {
 
 async function checkout(req, res, next) {
   try {
-    console.log(req.body);
     const removed = await helpers.checkoutUser(req.body)
     if (removed) {
+      sendToStoreDec(req.body.business, req.body.storeName)
       res.json({
         message: `checked out ${req.body.user}`
       })
     } 
   } catch (err) {
     next(err)
+  }
+}
+
+function sendToStoreDec(business, storeName) {
+  console.log(storeName, '--storeName');
+  if (sseClients.get(business)) {
+    sseClients.get(business).write(`event: decrement\n`)
+    sseClients.get(business).write(`data: ${JSON.stringify({storeName})}\n\n`)
   }
 }
 

@@ -51,7 +51,7 @@ async function checkin(user, storeName) {
     const index = business.history.findIndex(item => item.date == today)
     if( index !== -1 ) {
       business.updateOne({$inc: {"currentCount": 1}})
-      business.history[index].visits.push({user, entry: time})
+      business.history[index].visits.push({user, entry: time, exit: null})
     } else {
       business.updateOne({$set: {"currentCount": 1}})
       business.history.push({date: today, visits: [{user, entry: time, exit: null}]})

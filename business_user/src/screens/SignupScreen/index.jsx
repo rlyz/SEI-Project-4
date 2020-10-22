@@ -14,7 +14,7 @@ export default function SignupScreen() {
   const authenticate = useSelector(state => state.auth.isAuthenticated)
   useEffect(() => {
     if (authenticate) {
-      history.push('/')
+      history.push('/business')
     } 
   }, [])
   
@@ -39,7 +39,7 @@ export default function SignupScreen() {
 
   return (
     <div className="signup-screen">
-      <Link to="/login">Log in</Link>
+      <Link to="/business/login">Log in</Link>
       <form className="signup__form" onSubmit={(e)=>{e.preventDefault();handleEvent(e)}}>
         <div className="signup__formrow">
           <label htmlFor="username">Username: </label>

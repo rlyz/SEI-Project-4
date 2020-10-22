@@ -48,7 +48,7 @@ export const loginUser = (cred, history) => dispatch => {
   .then(res => {
     if (res.user) {
       dispatch(validUser(res.user, true))
-      history.push('/')
+      history.push('/business')
     }
   })
   .catch(err => dispatch(validUser(null, false)))
@@ -75,7 +75,7 @@ export const signupUser = (cred, history) => dispatch => {
   .then(res => {
     if (res.user) {
       dispatch(validUser(res.user, true))
-      history.push('/')
+      history.push('/business')
     }
   })
   .catch(err => dispatch(validUser(null, false)))
